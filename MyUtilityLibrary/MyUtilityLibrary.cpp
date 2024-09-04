@@ -16,12 +16,6 @@ MYUTILITYLIBRARY_API int fnMyUtilityLibrary(void)
     return 0;
 }
 
-// This is the constructor of a class that has been exported.
-//CMyUtilityLibrary::CMyUtilityLibrary()
-//{
-//    return;
-//}
-
 class CMyUtilityLibrary {
 public:
     void ReverseString(char* str);
@@ -60,14 +54,14 @@ void CMyUtilityLibrary::ReadFromFile(const char* filePath)
     if (!inFile)
     {
         // Handle error, file not opened
-        printf("Failed to open the file: %s\n", filePath);
+        PRINT_ERROR_MESSAGE("Failed to open the file: %s", filePath);
         return;
     }
 
     string line;
     while (getline(inFile, line)) // Read file line by line
     {
-        printf("%s\n", line.c_str()); // Print or process the content
+        PRINT_MESSAGE("%s", line.c_str()); // Print or process the content
     }
 
     inFile.close(); // Close the file after reading
@@ -82,14 +76,14 @@ void CMyUtilityLibrary::WriteToFile(const char* filePath, const char* content)
     if (!outFile)
     {
         // Handle error, file not opened
-        cerr << "Failed to open the file: " << filePath << endl;
+        PRINT_ERROR_MESSAGE("Failed to open the file: %s", filePath);
         return;
     }
 
     outFile << content; // Write content to the file
     outFile.close(); // Close the file after writing
 
-    cout << "File written to: " << filePath << endl; // Print file location
+    PRINT_MESSAGE("File written to: %s", filePath); // Print file location
 }
 
 

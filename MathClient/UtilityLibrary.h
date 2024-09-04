@@ -5,6 +5,10 @@
 #include <fstream>
 #include <string>
 #include <cctype>
+#include <vector>
+#include <windows.h>
+#include <sstream>
+#include <codecvt>
 
 using namespace std;
 
@@ -27,5 +31,9 @@ void displayMenu(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& t
 void runUtilityLibraryApp();
 
 void unloadDLL(HMODULE hLib);
+
+string getDLLVersion(const wstring& dllPath);
+
+void demonstrateCallingConventions();
 
 #endif // UTILITYLIBRARY_H

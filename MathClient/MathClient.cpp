@@ -13,12 +13,13 @@ int main() {
         {2, {"Dynamic Library 1 (Fibonacci Sequence)", runDynamicLibraryApp1}},
         {3, {"Dynamic Library 2 (Basic Calculator)", runDynamicLibraryApp2}},
         {4, {"Utility Library (File I/O, String Operations)", runUtilityLibraryApp}},
-        {5, {"Exit", exitApp}}
+        {5, {"Demonstrate Calling Conventions", demonstrateCallingConventions}},
+        {0, {"Exit", exitApp}}
     };
 
     // Run the dynamic menu
     // Pass the exit option number to runMenu
-    runMenu(menuOptions, 5); // 5 is the exit option number
+    runMenu(menuOptions, 0); // 0 is the exit option number
 
     return 0;
 }

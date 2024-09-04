@@ -18,25 +18,44 @@ using namespace std;
 #include <cstddef> // For size_t
 #include <algorithm>
 
+#define PRINT_MESSAGE(format, ...) printf(format "\n", ##__VA_ARGS__)
+#define PRINT_ERROR_MESSAGE(message) std::cerr << "Error: " << message << std::endl
+
 // Define function pointer types for the functions you expect to call from the DLL
 typedef void (*FnReverseString)(char*);
 typedef void (*FnToUpperCase)(char*);
 typedef void (*FnReadFromFile)(const char*);
 typedef void (*FnWriteToFile)(const char*, const char*);
 
-// This class is exported from the dll
-//class MYUTILITYLIBRARY_API CMyUtilityLibrary {
-//public:
-//	CMyUtilityLibrary(void);
-//	void ReverseString(char* str);
-//	void ToUpperCase(char* str);
-//	void ReadFromFile(const char* filePath);
-//	void WriteToFile(const char* filePath, const char* content);
-//};
-
 extern MYUTILITYLIBRARY_API int nMyUtilityLibrary;
 
 extern "C" MYUTILITYLIBRARY_API int fnMyUtilityLibrary(void);
+
+// Define Stdcall function
+// Stdcall is a calling convention used by default in the Windows API.
+// The callee is responsible for cleaning the stack after the function call.
+// This convention is commonly used for Windows API functions.
+extern "C" __declspec(dllexport) void __stdcall StdCallFunction() {
+	PRINT_MESSAGE("Called StdCallFunction (stdcall)");
+}
+
+// Define Cdecl function
+// Cdecl is a calling convention where the caller is responsible for cleaning the stack.
+// It allows functions to accept variable argument lists (e.g., printf).
+// This convention is often used for C++ functions.
+extern "C" __declspec(dllexport) void __cdecl CDeclFunction() {
+	PRINT_MESSAGE("Called CDeclFunction (cdecl)");
+}
+
+// Define Fastcall function
+// Fastcall is a calling convention designed to speed up function calls by passing
+// the first few arguments in registers rather than on the stack.
+// It requires specific function signatures and compiler support.
+// This convention can enhance performance for certain types of functions.
+extern "C" __declspec(dllexport) void __fastcall FastCallFunction() {
+	PRINT_MESSAGE("Called FastCallFunction (fastcall)");
+}
+
 
 // Additional utility function declarations
 extern "C" {

@@ -45,13 +45,41 @@ void displayMenu(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& t
     runMenu(submenuOptions, 5); // Use dynamic exit option
 }
 
+void demonstrateCallingConventions() {
+    HMODULE hLib = loadDLL(L"MyUtilityLibrary.dll");
+
+    // Get function pointers
+    StdCallFunc stdCallFunc = (StdCallFunc)GetProcAddress(hLib, "StdCallFunction");
+    CDeclFunc cDeclFunc = (CDeclFunc)GetProcAddress(hLib, "CDeclFunction");
+    FastCallFunc fastCallFunc = (FastCallFunc)GetProcAddress(hLib, "FastCallFunction");
+
+    if (!stdCallFunc || !cDeclFunc || !fastCallFunc) {
+        std::cerr << "Failed to get one or more function pointers" << std::endl;
+        FreeLibrary(hLib);
+        return;
+    }
+
+    PRINT_MESSAGE("Demonstrating Calling Conventions");
+    PRINT_MESSAGE("Calling conventions are important for DLL compatibility and function calling.");
+	PRINT_MESSAGE("Different calling conventions specify how function arguments are passed and stack cleanup.");
+
+    PRINT_MESSAGE("Stdcall: Callee cleans the stack. Default for Windows API functions.");
+    stdCallFunc();
+
+    PRINT_MESSAGE("Cdecl: Caller cleans the stack. Supports variable argument lists.");
+    cDeclFunc();
+
+    PRINT_MESSAGE("Fastcall: Passes arguments in registers for speed. Requires specific signatures.");
+    fastCallFunc();
+
+    // Unload DLL
+    FreeLibrary(hLib);
+}
+
+
 // Function to initialize DLL
 bool initializeDLL(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& toUpperCase, FnReadFromFile& readFromFile, FnWriteToFile& writeToFile) {
-    hLib = LoadLibrary(TEXT("MyUtilityLibrary.dll"));
-    if (hLib == NULL) {
-        PRINT_ERROR_MESSAGE("Failed to load MyUtilityLibrary.dll");
-        return false;
-    }
+    hLib = loadDLL(L"MyUtilityLibrary.dll");
 
     reverseString = loadFunction<FnReverseString>(hLib, "ReverseString");
     toUpperCase = loadFunction<FnToUpperCase>(hLib, "ToUpperCase");
