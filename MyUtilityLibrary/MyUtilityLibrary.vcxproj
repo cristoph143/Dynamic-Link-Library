@@ -154,9 +154,11 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="extern_c.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MyUtilityLibrary.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ToolCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

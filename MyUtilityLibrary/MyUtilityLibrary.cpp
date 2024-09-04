@@ -6,10 +6,6 @@
 #include "MyUtilityLibrary.h"
 #include <iostream>
 
-
-// This is an example of an exported variable
-MYUTILITYLIBRARY_API int nMyUtilityLibrary=0;
-
 // This is an example of an exported function.
 MYUTILITYLIBRARY_API int fnMyUtilityLibrary(void)
 {
