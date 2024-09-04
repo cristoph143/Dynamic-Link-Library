@@ -1,0 +1,2 @@
+#define MYUTILITYLIBRARY_API __declspec(dllexport)
+#define MYUTILITYLIBRARY_API __declspec(dllimport)
