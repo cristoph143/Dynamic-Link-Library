@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "MathClient.h"
+#include "ToolCommon.h"
+#include "UtilityLibrary.h"
 
 int main() {
     // Define the menu options with their descriptions and associated actions
@@ -10,66 +12,51 @@ int main() {
         {1, {"Static Library (Square, Cube, Factorial)", runStaticLibraryApp}},
         {2, {"Dynamic Library 1 (Fibonacci Sequence)", runDynamicLibraryApp1}},
         {3, {"Dynamic Library 2 (Basic Calculator)", runDynamicLibraryApp2}},
-        {4, {"Exit", exitApp}}
+        {4, {"Utility Library (File I/O, String Operations)", runUtilityLibraryApp}},
+        {5, {"Demonstrate Calling Conventions", demonstrateCallingConventions}},
+        {0, {"Exit", exitApp}}
     };
 
     // Run the dynamic menu
-    runMenu(menuOptions);
+    // Pass the exit option number to runMenu
+    runMenu(menuOptions, 0); // 0 is the exit option number
 
     return 0;
 }
 
-void runMenu(const map<int, MenuOption>& menuOptions) {
-    int choice = 0;
-    do {
-        // Display menu
-        cout << "\nSelect an option:\n";
-        for (const auto& option : menuOptions) {
-            cout << option.first << ". " << option.second.description << endl;
-        }
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        // Execute corresponding action if valid
-        if (menuOptions.count(choice)) {
-            menuOptions.at(choice).action();
-        }
-        else {
-            cout << "Invalid choice. Please try again." << endl;
-        }
-
-    } while (choice != 4); // Option 4 for "Exit"
-}
-
-// Function implementations
 void runStaticLibraryApp() {
     int num = 5;
-    cout << "Running Static Library (Square, Cube, Factorial)" << endl;
-    cout << "Square of " << num << " is: " << square(num) << endl;
-    cout << "Cube of " << num << " is: " << cube(num) << endl;
-    cout << "Factorial of " << num << " is: " << factorial(num) << endl;
+
+    // Use the macro to print the initial message
+    PRINT_MESSAGE("Running Static Library (Square, Cube, Factorial)");
+
+    // Use the macro for dynamic content
+    PRINT_MESSAGE("Square of %d is: %d", num, square(num));
+    PRINT_MESSAGE("Cube of %d is: %d", num, cube(num));
+    PRINT_MESSAGE("Factorial of %d is: %d", num, factorial(num));
 }
 
+
 void runDynamicLibraryApp1() {
-    cout << "Running Dynamic Library 1 (Fibonacci Sequence)" << endl;
+    PRINT_MESSAGE("Running Dynamic Library 1 (Fibonacci Sequence)");
+
     fibonacci_init(1, 1);
     do {
-        cout << fibonacci_index() << ": " << fibonacci_current() << endl;
+        PRINT_MESSAGE("%d: %llu", fibonacci_index(), fibonacci_current());
     } while (fibonacci_next());
-    cout << fibonacci_index() + 1 << " Fibonacci sequence values fit in an unsigned 64-bit integer." << endl;
+
+    PRINT_MESSAGE("%d Fibonacci sequence values fit in an unsigned 64-bit integer.", fibonacci_index() + 1);
 }
 
 void runDynamicLibraryApp2() {
-    cout << "Running Dynamic Library 2 (Basic Calculator)" << endl;
-    int a = 10, b = 5;
-    cout << "Add: " << add(a, b) << endl;
-    cout << "Subtract: " << subtract(a, b) << endl;
-    cout << "Multiply: " << multiply(a, b) << endl;
-    cout << "Divide: " << divide(a, b) << endl;
-}
+    PRINT_MESSAGE("Running Dynamic Library 2 (Basic Calculator)");
 
-void exitApp() {
-    cout << "Exiting..." << endl;
+    int a = 10, b = 5;
+
+    PRINT_MESSAGE("Add: %d", add(a, b));
+    PRINT_MESSAGE("Subtract: %d", subtract(a, b));
+    PRINT_MESSAGE("Multiply: %d", multiply(a, b));
+    PRINT_MESSAGE("Divide: %d", divide(a, b));
 }
 
 
