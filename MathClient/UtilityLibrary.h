@@ -9,14 +9,15 @@
 #include <windows.h>
 #include <sstream>
 #include <codecvt>
+#include "../MyUtilityLibrary/CallConvention.h"
 
 using namespace std;
 
-// Global function pointers
-extern FnReverseString reverseStringFunction;
-extern FnToUpperCase toUpperCaseFunction;
-extern FnReadFromFile readFromFileFunction;
-extern FnWriteToFile writeToFileFunction;
+ //Typedefs for function pointers
+typedef void (*FnReverseString)(char*);
+typedef void (*FnToUpperCase)(char*);
+typedef void (*FnReadFromFile)(const char*);
+typedef void (*FnWriteToFile)(const char*, const char*);
 
 // Function to initialize and load DLL functions
 bool initializeDLL(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& toUpperCase, FnReadFromFile& readFromFile, FnWriteToFile& writeToFile);
@@ -31,8 +32,6 @@ void displayMenu(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& t
 void runUtilityLibraryApp();
 
 void unloadDLL(HMODULE hLib);
-
-string getDLLVersion(const wstring& dllPath);
 
 void demonstrateCallingConventions();
 

@@ -154,6 +154,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CallConvention.h" />
     <ClInclude Include="extern_c.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MyUtilityLibrary.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="ToolCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CallConvention.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="MyUtilityLibrary.cpp" />
     <ClCompile Include="pch.cpp">
