@@ -26,10 +26,6 @@ typedef void (*FnToUpperCase)(char*);
 typedef void (*FnReadFromFile)(const char*);
 typedef void (*FnWriteToFile)(const char*, const char*);
 
-typedef void(__stdcall* StdCallFunc)();
-typedef void(__cdecl* CDeclFunc)();
-typedef void(__fastcall* FastCallFunc)();
-
 template<typename T>
 T loadFunction(HMODULE hLib, const char* functionName) {
     // Get the address of the function

@@ -18,6 +18,14 @@ extern FnToUpperCase toUpperCaseFunction;
 extern FnReadFromFile readFromFileFunction;
 extern FnWriteToFile writeToFileFunction;
 
+typedef void(__cdecl* CDeclFunc)();
+typedef void(__stdcall* StdCallFunc)();
+typedef int(__stdcall* StdCallFuncWithParams)(int a, int b);
+typedef void(__fastcall* FastCallFunc)();
+typedef int(__fastcall* FastCallFuncWithParams)(int a, int b);
+typedef HRESULT(__stdcall* SafeCallFunc)();
+
+
 // Function to initialize and load DLL functions
 bool initializeDLL(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& toUpperCase, FnReadFromFile& readFromFile, FnWriteToFile& writeToFile);
 
@@ -31,8 +39,6 @@ void displayMenu(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& t
 void runUtilityLibraryApp();
 
 void unloadDLL(HMODULE hLib);
-
-string getDLLVersion(const wstring& dllPath);
 
 void demonstrateCallingConventions();
 
