@@ -16,4 +16,5 @@ using namespace std;
 #include "extern_c.h"
 
 #define PRINT_MESSAGE(format, ...) printf(format "\n", ##__VA_ARGS__)
-#define PRINT_ERROR_MESSAGE(message) std::cerr << "Error: " << message << std::endl
+#define PRINT_ERROR_MESSAGE(format, ...) \
+    std::cerr << "Error: " << format << std::endl, __VA_ARGS__

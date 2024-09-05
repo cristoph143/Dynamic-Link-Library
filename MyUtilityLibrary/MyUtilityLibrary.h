@@ -6,13 +6,21 @@
 // defined with this macro as being exported.
 #include "ToolCommon.h"
 
+EXTERN_C_BEGIN
+
 // Define function pointer types for the functions you expect to call from the DLL
 typedef void (*FnReverseString)(char*);
 typedef void (*FnToUpperCase)(char*);
 typedef void (*FnReadFromFile)(const char*);
 typedef void (*FnWriteToFile)(const char*, const char*);
 
-EXTERN_C_BEGIN
+typedef void(__cdecl* CDeclFunc)();
+typedef void(__stdcall* StdCallFunc)();
+typedef int(__stdcall* StdCallFuncWithParams)(int a, int b);
+typedef void(__fastcall* FastCallFunc)();
+typedef int(__fastcall* FastCallFuncWithParams)(int a, int b);
+typedef HRESULT(__stdcall* SafeCallFunc)();
+
 
 // Define Stdcall function
 // Stdcall is a calling convention used by default in the Windows API.
@@ -37,6 +45,23 @@ MYUTILITYLIBRARY_API void __cdecl CDeclFunction() {
 // This convention can enhance performance for certain types of functions.
 MYUTILITYLIBRARY_API void __fastcall FastCallFunction() {
 	PRINT_MESSAGE("Called FastCallFunction (fastcall)");
+}
+
+
+MYUTILITYLIBRARY_API int __stdcall StdCallFunctionWithParams(int a, int b) {
+    PRINT_MESSAGE("Called StdCallFunctionWithParams (stdcall) with a=%d, b=%d", a, b);
+    return a + b;
+}
+
+MYUTILITYLIBRARY_API int __fastcall FastCallFunctionWithParams(int a, int b) {
+    PRINT_MESSAGE("Called FastCallFunctionWithParams (fastcall) with a=%d, b=%d", a, b);
+    return a - b;
+}
+
+MYUTILITYLIBRARY_API HRESULT __stdcall SafeCallFunction() {
+    HRESULT result = E_FAIL;  // Example failure code
+    PRINT_MESSAGE("Called SafeCallFunction (safecall) with result code: 0x%08X", result);
+    return result;
 }
 
 MYUTILITYLIBRARY_API int nMyUtilityLibrary;

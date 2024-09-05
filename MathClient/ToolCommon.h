@@ -9,8 +9,8 @@
 using namespace std;
 
 #define PRINT_MESSAGE(format, ...) printf(format "\n", ##__VA_ARGS__)
-#define PRINT_ERROR_MESSAGE(message) std::cerr << "Error: " << message << std::endl
-
+#define PRINT_ERROR_MESSAGE(format, ...) \
+    std::cerr << "Error: " << format << std::endl, __VA_ARGS__
 // Function pointer typedefs for dynamic functions
 typedef void (*MenuAction)();
 
@@ -25,10 +25,6 @@ typedef void (*FnReverseString)(char*);
 typedef void (*FnToUpperCase)(char*);
 typedef void (*FnReadFromFile)(const char*);
 typedef void (*FnWriteToFile)(const char*, const char*);
-
-typedef void(__stdcall* StdCallFunc)();
-typedef void(__cdecl* CDeclFunc)();
-typedef void(__fastcall* FastCallFunc)();
 
 template<typename T>
 T loadFunction(HMODULE hLib, const char* functionName) {
