@@ -48,31 +48,47 @@ void displayMenu(HMODULE& hLib, FnReverseString& reverseString, FnToUpperCase& t
 void demonstrateCallingConventions() {
     HMODULE hLib = loadDLL(L"MyUtilityLibrary.dll");
 
-    // Get function pointers
-    CDeclFunc cDeclFunc = loadFunction<CDeclFunc>(hLib, "CDeclFunction");
-    StdCallFunc stdCallFunc = loadFunction<StdCallFunc>(hLib, "StdCallFunction");
-    FastCallFunc fastCallFunc = loadFunction<FastCallFunc>(hLib, "FastCallFunction");
+    // Retrieve function pointers
+   // Load function pointers
+    auto cDeclFunc = loadFunction<CDeclFunc>(hLib, "CDeclFunction");
+    auto stdCallFunc = loadFunction<StdCallFunc>(hLib, "StdCallFunction");
+    auto stdCallFuncWithParams = loadFunction<StdCallFuncWithParams>(hLib, "StdCallFunctionWithParams");
+    auto fastCallFunc = loadFunction<FastCallFunc>(hLib, "FastCallFunction");
+    auto fastCallFuncWithParams = loadFunction<FastCallFuncWithParams>(hLib, "FastCallFunctionWithParams");
+    auto safeCallFunc = loadFunction<SafeCallFunc>(hLib, "SafeCallFunction");
 
-    if (!stdCallFunc || !cDeclFunc || !fastCallFunc) {
-        std::cerr << "Failed to get one or more function pointers" << std::endl;
+    if (!cDeclFunc || !stdCallFunc || !stdCallFuncWithParams || !fastCallFunc || !fastCallFuncWithParams || !safeCallFunc) {
+
+        PRINT_ERROR_MESSAGE("Failed to retrieve one or more function pointers from MyUtilityLibrary.dll");
         FreeLibrary(hLib);
         return;
     }
 
     PRINT_MESSAGE("Demonstrating Calling Conventions");
-    PRINT_MESSAGE("Calling conventions are important for DLL compatibility and function calling.");
-	PRINT_MESSAGE("Different calling conventions specify how function arguments are passed and stack cleanup.");
 
-    PRINT_MESSAGE("Stdcall: Callee cleans the stack. Default for Windows API functions.");
-    stdCallFunc();
-
-    PRINT_MESSAGE("Cdecl: Caller cleans the stack. Supports variable argument lists.");
+    PRINT_MESSAGE("Cdecl Function: Calling function with __cdecl calling convention.");
     cDeclFunc();
 
-    PRINT_MESSAGE("Fastcall: Passes arguments in registers for speed. Requires specific signatures.");
+    PRINT_MESSAGE("Stdcall Function: Calling function with __stdcall calling convention.");
+    stdCallFunc();
+
+    PRINT_MESSAGE("Stdcall Function With Params: Calling function with __stdcall calling convention and parameters.");
+    int result = stdCallFuncWithParams(10, 5);
+    PRINT_MESSAGE("StdCallFunctionWithParams returned: %d", result);
+
+    PRINT_MESSAGE("Fastcall Function: Calling function with __fastcall calling convention.");
     fastCallFunc();
 
-    // Unload DLL
+    PRINT_MESSAGE("Fastcall Function With Params: Calling function with __fastcall calling convention and parameters.");
+    result = fastCallFuncWithParams(10, 5);
+    PRINT_MESSAGE("FastCallFunctionWithParams returned: %d", result);
+
+    PRINT_MESSAGE("Safecall Function: Calling function with __stdcall calling convention and HRESULT return type.");
+    HRESULT hr = safeCallFunc();
+    if (FAILED(hr)) {
+        PRINT_ERROR_MESSAGE("SafeCallFunction failed with HRESULT: 0x%08X", hr);
+    }
+
     FreeLibrary(hLib);
 }
 
