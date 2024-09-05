@@ -49,9 +49,9 @@ void demonstrateCallingConventions() {
     HMODULE hLib = loadDLL(L"MyUtilityLibrary.dll");
 
     // Get function pointers
-    StdCallFunc stdCallFunc = (StdCallFunc)GetProcAddress(hLib, "StdCallFunction");
-    CDeclFunc cDeclFunc = (CDeclFunc)GetProcAddress(hLib, "CDeclFunction");
-    FastCallFunc fastCallFunc = (FastCallFunc)GetProcAddress(hLib, "FastCallFunction");
+    CDeclFunc cDeclFunc = loadFunction<CDeclFunc>(hLib, "CDeclFunction");
+    StdCallFunc stdCallFunc = loadFunction<StdCallFunc>(hLib, "StdCallFunction");
+    FastCallFunc fastCallFunc = loadFunction<FastCallFunc>(hLib, "FastCallFunction");
 
     if (!stdCallFunc || !cDeclFunc || !fastCallFunc) {
         std::cerr << "Failed to get one or more function pointers" << std::endl;
