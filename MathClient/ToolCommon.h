@@ -6,6 +6,10 @@
 #include <string>
 #include <sstream>
 
+#include <wincrypt.h>
+#include <softpub.h>
+
+
 using namespace std;
 
 #define PRINT_MESSAGE(format, ...) printf(format "\n", ##__VA_ARGS__)
